@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { NextUIRouterProvider } from "./providers/NextUIRouterProvider";
 import MainHeader from "./components/MainHeader";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <NextTopLoader showSpinner={false} color="#800080" />
         <NextUIRouterProvider>
           <MainHeader />
           {children}
