@@ -1,15 +1,13 @@
+import "@/drizzle/envConfig";
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
   schema: "./schema.ts",
-  dialect: "mysql",
+  dialect: "postgresql",
   dbCredentials: {
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "ecommerce",
+    url: `${process.env.POSTGRES_URL}`,
   },
   out: "./drizzle",
-  //   verbose: true,
+  verbose: true,
   strict: true,
 });

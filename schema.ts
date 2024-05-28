@@ -1,13 +1,18 @@
 import {
-  int,
-  mysqlTable,
+  varchar,
   primaryKey,
   timestamp,
-  varchar,
-} from "drizzle-orm/mysql-core";
+  integer,
+  pgTable,
+  serial,
+} from "drizzle-orm/pg-core";
 import { AdapterAccountType } from "next-auth/adapters";
 
-export const users = mysqlTable("users", {
+export const tests = pgTable("tests", {
+  id: serial("id"),
+  name: varchar("name", { length: 255 }),
+});
+export const users = pgTable("users", {
   id: varchar("id", { length: 255 })
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
@@ -16,12 +21,11 @@ export const users = mysqlTable("users", {
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", {
     mode: "date",
-    fsp: 3,
   }),
   image: varchar("image", { length: 255 }),
 });
 
-export const accounts = mysqlTable(
+export const accounts = pgTable(
   "accounts",
   {
     userId: varchar("userId", { length: 255 })
@@ -34,7 +38,7 @@ export const accounts = mysqlTable(
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
     refresh_token: varchar("refresh_token", { length: 255 }),
     access_token: varchar("access_token", { length: 255 }),
-    expires_at: int("expires_at"),
+    expires_at: integer("expires_at"),
     token_type: varchar("token_type", { length: 255 }),
     scope: varchar("scope", { length: 255 }),
     id_token: varchar("id_token", { length: 2048 }),
@@ -47,7 +51,7 @@ export const accounts = mysqlTable(
   })
 );
 
-export const sessions = mysqlTable("sessions", {
+export const sessions = pgTable("sessions", {
   sessionToken: varchar("sessionToken", { length: 255 }).primaryKey(),
   userId: varchar("userId", { length: 255 })
     .notNull()
@@ -55,7 +59,7 @@ export const sessions = mysqlTable("sessions", {
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export const verificationTokens = mysqlTable(
+export const verificationTokens = pgTable(
   "verification_tokens",
   {
     identifier: varchar("identifier", { length: 255 }).notNull(),
